@@ -49,7 +49,7 @@ spec:
       maxSize: 2
       minSize: 1
       name: ng2
-      version: "1.23"
+      version: "1.24"
     metadata:
       name: kalyan-exiscnets
       region: us-west-2
