@@ -56,7 +56,7 @@ spec:
       tags:
         email: kalyan@rafay.co
         env: qa
-      version: "1.23"
+      version: "1.24"
     network:
       cni:
         name: aws-cni
