@@ -82,6 +82,10 @@ spec:
       nat:
         gateway: Single
   proxyConfig: {}
+  sharing:
+    enabled: true
+    projects:
+    - name: shobhit1
   type: aws-eks
 status:
   blueprint:
