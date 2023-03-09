@@ -11,6 +11,12 @@ spec:
     addons:
     - name: aws-ebs-csi-driver
       version: latest
+    identityMappings:
+      arns:
+      - arn: arn:aws:iam::679196758854:user/shobhit@rafay.co
+        group:
+        - system:masters
+        username: shobhit
     managedNodeGroups:
     - amiFamily: AmazonLinux2
       desiredCapacity: 2
