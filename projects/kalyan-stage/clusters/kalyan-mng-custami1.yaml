@@ -1,0 +1,78 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: Cluster
+metadata:
+  name: kalyan-mng-custami1
+  project: kalyan-stage
+spec:
+  blueprintConfig:
+    name: minimal
+  cloudCredentials: kalyanaws1
+  config:
+    addons:
+    - name: aws-ebs-csi-driver
+      version: latest
+    managedNodeGroups:
+    - ami: ami-07fa919157663cacc
+      desiredCapacity: 2
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+      instanceType: t3.xlarge
+      maxSize: 2
+      minSize: 2
+      name: mng-customami1
+      volumeSize: 80
+      volumeType: gp3
+    metadata:
+      name: kalyan-mng-custami1
+      region: us-west-2
+      tags:
+        email: kalyan@rafay.co
+        env: qa
+      version: "1.24"
+    network:
+      cni:
+        name: aws-cni
+    vpc:
+      cidr: 192.168.0.0/16
+      clusterEndpoints:
+        privateAccess: true
+        publicAccess: false
+      nat:
+        gateway: Single
+  proxyConfig: {}
+  sharing:
+    enabled: true
+    projects:
+    - name: vyshakhg
+    - name: vyshakhg1
+  type: aws-eks
+status:
+  blueprint:
+    name: minimal
+  conditions:
+  - reason: registered
+    status: "True"
+    type: ClusterRegisterSucceeded
+  - reason: checked in
+    status: "True"
+    type: ClusterCheckInSucceeded
+  - reason: all nodes synced
+    status: "True"
+    type: ClusterNodeSyncSucceeded
+  - reason: all namespaces synced
+    status: "True"
+    type: ClusterNamespaceSyncSucceeded
+  - reason: all tasks/workloads synced
+    status: "True"
+    type: ClusterBlueprintSyncSucceeded
+  - reason: blueprint synced
+    status: "True"
+    type: ClusterReady
+  createdAt: "2023-03-06T11:24:23Z"
+  displayName: kalyan-mng-custami1
+  extra:
+    vaultIntegration: {}
+  id: 2l81dqk
+  name: kalyan-mng-custami1
+  provisionStatus: CLUSTER_PROVISION_COMPLETE

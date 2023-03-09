@@ -1,0 +1,134 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: Cluster
+metadata:
+  name: kalyan-exiscnets
+  project: kalyan-stage
+spec:
+  blueprintConfig:
+    name: deks-custombp
+    version: v1
+  cloudCredentials: kalyanaws1
+  config:
+    addons:
+    - name: aws-ebs-csi-driver
+      version: latest
+    iam:
+      serviceRoleARN: arn:aws:iam::679196758854:role/rafay-kalyan-custcni-clirf-cluster-ServiceRole-SMTLSML33VI7
+    managedNodeGroups:
+    - amiFamily: AmazonLinux2
+      availabilityZones:
+      - us-west-2a
+      - us-west-2b
+      desiredCapacity: 2
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+      instanceType: t3.xlarge
+      labels:
+        app: infra
+        dedicated: "true"
+      maxSize: 2
+      minSize: 2
+      name: ng1
+      taints:
+      - effect: NoSchedule
+        key: app
+        value: infra
+      - effect: NoSchedule
+        key: dedicated
+        value: "true"
+      version: "1.23"
+      volumeSize: 80
+      volumeType: gp3
+    - amiFamily: AmazonLinux2
+      desiredCapacity: 1
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+      instanceType: t3.xlarge
+      maxSize: 2
+      minSize: 1
+      name: ng2
+      version: "1.23"
+    metadata:
+      name: kalyan-exiscnets
+      region: us-west-2
+      tags:
+        email: kalyan@rafay.co
+        env: qa
+      version: "1.23"
+    network:
+      cni:
+        name: aws-cni
+        params:
+          customCniCrdSpec:
+            us-west-2a:
+            - securityGroups:
+              - sg-0a54be1024769e4f8
+              subnet: subnet-02db839f1ed365acf
+            us-west-2b:
+            - securityGroups:
+              - sg-0a54be1024769e4f8
+              subnet: subnet-0a5773211d686b827
+    vpc:
+      clusterEndpoints:
+        privateAccess: true
+        publicAccess: false
+      nat:
+        gateway: Single
+      subnets:
+        private:
+          subnet-0bcafe2eaea0e147d:
+            id: subnet-0bcafe2eaea0e147d
+          subnet-0f598fa2acb1ec373:
+            id: subnet-0f598fa2acb1ec373
+        public:
+          subnet-08b88fe4b2de28757:
+            id: subnet-08b88fe4b2de28757
+          subnet-054c53005969bceca:
+            id: subnet-054c53005969bceca
+  proxyConfig: {}
+  systemComponentsPlacement:
+    nodeSelector:
+      app: infra
+      dedicated: "true"
+    tolerations:
+    - effect: NoSchedule
+      key: app
+      operator: Equal
+      value: infra
+    - effect: NoSchedule
+      key: dedicated
+      operator: Equal
+      value: "true"
+  type: aws-eks
+status:
+  blueprint:
+    name: deks-custombp
+    version: v1
+  conditions:
+  - reason: registered
+    status: "True"
+    type: ClusterRegisterSucceeded
+  - reason: checked in
+    status: "True"
+    type: ClusterCheckInSucceeded
+  - reason: all nodes synced
+    status: "True"
+    type: ClusterNodeSyncSucceeded
+  - reason: all namespaces synced
+    status: "True"
+    type: ClusterNamespaceSyncSucceeded
+  - reason: all tasks/workloads synced
+    status: "True"
+    type: ClusterBlueprintSyncSucceeded
+  - reason: blueprint synced
+    status: "True"
+    type: ClusterReady
+  createdAt: "2023-03-09T10:13:11Z"
+  displayName: kalyan-exiscnets
+  extra:
+    vaultIntegration: {}
+  id: m11gqym
+  name: kalyan-exiscnets
+  provisionStatus: CLUSTER_PROVISION_COMPLETE

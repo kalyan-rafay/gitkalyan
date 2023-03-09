@@ -1,0 +1,108 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: Cluster
+metadata:
+  name: kalyan-custcni-clirf
+  project: kalyan-stage
+spec:
+  blueprintConfig:
+    name: minimal
+  cloudCredentials: kalyanaws1
+  config:
+    addons:
+    - name: aws-ebs-csi-driver
+      version: latest
+    managedNodeGroups:
+    - amiFamily: AmazonLinux2
+      desiredCapacity: 2
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+      instanceType: t3.xlarge
+      maxSize: 2
+      minSize: 2
+      name: mg-ng1
+      version: "1.23"
+      volumeSize: 80
+      volumeType: gp3
+    metadata:
+      name: kalyan-custcni-clirf
+      region: us-west-2
+      tags:
+        email: kalyan@rafay.co
+        env: qa
+      version: "1.23"
+    network:
+      cni:
+        name: aws-cni
+        params:
+          customCniCidr: 100.0.0.0/16
+    nodeGroups:
+    - ami: ami-09bf538a18f5217ae
+      desiredCapacity: 1
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+          imageBuilder: true
+      instanceType: t3.xlarge
+      maxSize: 2
+      minSize: 1
+      name: self-mng-custami
+      tags:
+        email: kalyan@rafay.co
+        env: qa
+      volumeSize: 80
+      volumeType: gp3
+    - ami: ami-09bf538a18f5217ae
+      desiredCapacity: 1
+      iam:
+        withAddonPolicies:
+          autoScaler: true
+          imageBuilder: true
+      instanceType: t3.xlarge
+      maxSize: 2
+      minSize: 1
+      name: selfcustami2
+      overrideBootstrapCommand: '[Windows]'
+      tags:
+        email: kalyan@rafay.co
+        env: qa
+      volumeSize: 80
+      volumeType: gp3
+    vpc:
+      cidr: 192.168.0.0/16
+      clusterEndpoints:
+        privateAccess: true
+        publicAccess: false
+      nat:
+        gateway: Single
+  proxyConfig: {}
+  type: aws-eks
+status:
+  blueprint:
+    name: minimal
+  conditions:
+  - reason: registered
+    status: "True"
+    type: ClusterRegisterSucceeded
+  - reason: checked in
+    status: "True"
+    type: ClusterCheckInSucceeded
+  - reason: all nodes synced
+    status: "True"
+    type: ClusterNodeSyncSucceeded
+  - reason: all namespaces synced
+    status: "True"
+    type: ClusterNamespaceSyncSucceeded
+  - reason: all tasks/workloads synced
+    status: "True"
+    type: ClusterBlueprintSyncSucceeded
+  - reason: blueprint synced
+    status: "True"
+    type: ClusterReady
+  createdAt: "2023-03-09T05:41:19Z"
+  displayName: kalyan-custcni-clirf
+  extra:
+    vaultIntegration: {}
+  id: 24r53vk
+  name: kalyan-custcni-clirf
+  provisionStatus: CLUSTER_PROVISION_COMPLETE
