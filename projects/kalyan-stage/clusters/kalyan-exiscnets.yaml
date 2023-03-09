@@ -37,7 +37,7 @@ spec:
       - effect: NoSchedule
         key: dedicated
         value: "true"
-      version: "1.23"
+      version: "1.24"
       volumeSize: 80
       volumeType: gp3
     - amiFamily: AmazonLinux2
@@ -113,8 +113,8 @@ status:
   - reason: checked in
     status: "True"
     type: ClusterCheckInSucceeded
-  - reason: all nodes synced
-    status: "True"
+  - reason: node sync in progress
+    status: "False"
     type: ClusterNodeSyncSucceeded
   - reason: all namespaces synced
     status: "True"
